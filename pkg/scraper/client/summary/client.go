@@ -110,7 +110,7 @@ func (kc *kubeletClient) GetMetrics(ctx context.Context, node *corev1.Node) (*st
 		Scheme:   kc.scheme,
 		Host:     net.JoinHostPort(addr, strconv.Itoa(port)),
 		Path:     "/stats/summary",
-		RawQuery: "only_cpu_and_memory=true",
+		RawQuery: "",
 	}
 
 	req, err := http.NewRequest("GET", url.String(), nil)

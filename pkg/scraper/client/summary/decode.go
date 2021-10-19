@@ -57,6 +57,9 @@ func decodeNodeStats(nodeStats *NodeStats, target *storage.NodeMetricsPoint) (su
 	if nodeStats.StartTime.IsZero() || nodeStats.CPU == nil || nodeStats.CPU.Time.IsZero() {
 		// if we can't get a timestamp, assume bad data in general
 		klog.V(1).InfoS("Failed getting node metric timestamp", "node", klog.KRef("", nodeStats.NodeName))
+		if bytes, err := nodeStats.MarshalJSON(); err == nil {
+			klog.V(1).InfoS(string(bytes))
+		}
 		return false
 	}
 	*target = storage.NodeMetricsPoint{
