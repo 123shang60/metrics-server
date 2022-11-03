@@ -11,7 +11,7 @@ BUILD_DATE:=$(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
 
 # Consts
 # ------
-ALL_ARCHITECTURES=amd64 arm arm64 ppc64le s390x
+ALL_ARCHITECTURES=amd64 arm64
 export DOCKER_CLI_EXPERIMENTAL=enabled
 
 # Computed variables
@@ -44,8 +44,7 @@ CONTAINER_ARCH_TARGETS=$(addprefix container-,$(ALL_ARCHITECTURES))
 container:
 	# Pull base image explicitly. Keep in sync with Dockerfile, otherwise
 	# GCB builds will start failing.
-	docker pull golang:1.16.4
-	docker buildx build -t $(REGISTRY)/metrics-server-$(ARCH):$(CHECKSUM) --build-arg ARCH=$(ARCH) --build-arg GIT_TAG=$(GIT_TAG) --build-arg GIT_COMMIT=$(GIT_COMMIT) .
+	docker buildx build -t $(REGISTRY)/metrics-server-$(ARCH):$(CHECKSUM) --build-arg ARCH=$(ARCH) --build-arg GIT_TAG=$(GIT_TAG) --build-arg GIT_COMMIT=$(GIT_COMMIT) . --load
 
 .PHONY: container-all
 container-all: $(CONTAINER_ARCH_TARGETS);

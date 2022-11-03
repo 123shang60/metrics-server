@@ -5,6 +5,7 @@ FROM golang:1.16.4 as build
 WORKDIR /go/src/sigs.k8s.io/metrics-server
 COPY go.mod .
 COPY go.sum .
+ENV GOPROXY=https://goproxy.cn
 RUN go mod download
 
 COPY pkg pkg
